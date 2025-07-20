@@ -36,11 +36,6 @@
           <PenSquare />
         </Button>
       </div>
-
-      <!-- <LayoutUserDropdown v-if="user" />
-      <Button v-else variant="ghost" size="icon" @click="showLoginDialog">
-        <LogIn />
-      </Button> -->
     </div>
 
     <!-- Mobile -->
@@ -51,21 +46,18 @@
       <LayoutMobileDrawer />
     </div>
   </div>
-  <LoginDialog v-model="loginDialogOpen" />
   <WriteDialog v-model="writeDialogOpen" />
 </template>
 
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
 import { PenSquare } from 'lucide-vue-next'
-import { toast } from 'vue-sonner'
 
 const pb = usePocketBase()
 const user = useUserState()
 
 const content = useContentState()
 
-const loginDialogOpen = ref(false)
 const writeDialogOpen = ref(false)
 
 const { directions, y } = useWindowScroll()
@@ -80,12 +72,4 @@ watch(
     }
   }
 )
-
-function showLoginDialog() {
-  if (pb.authStore.isValid) {
-    toast.success('已登录。')
-  } else {
-    loginDialogOpen.value = true
-  }
-}
 </script>
