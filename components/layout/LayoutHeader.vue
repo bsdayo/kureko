@@ -9,7 +9,9 @@
       <div class="grow flex items-center relative">
         <LayoutDesktopNavigationMenu
           class="absolute transition-opacity"
-          :style="`opacity: ${scrollingUp ? 1 : 0}; z-index: ${scrollingUp ? 1 : 0};`"
+          :style="
+            content ? `opacity: ${scrollingUp ? 1 : 0}; z-index: ${scrollingUp ? 1 : 0};` : ''
+          "
         />
 
         <div
