@@ -31,8 +31,6 @@
 <script lang="ts" setup>
 usePageTitle('首页')
 
-onMounted(() => console.log(socialButtons.value))
-
 const kurekoConfig = useKurekoConfig()
 const socialButtons = computed(() => {
   return kurekoConfig.value?.author.social.map((item) => {
