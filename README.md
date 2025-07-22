@@ -10,10 +10,10 @@ WIP
 
 ## 技术栈
 
-- Nuxt / Vue
-- Tailwind CSS
-- shadcn-vue
-- PocketBase
+- Nuxt.js 3 + Vue.js 3
+- UnoCSS (`preset-wind4` + `preset-typography`)
+- 基于 [Reka UI](https://github.com/unovue/reka-ui) 的界面组件，衍生自 [shadcn-vue](https://github.com/unovue/shadcn-vue/)
+- [PocketBase](https://github.com/pocketbase/pocketbase/)
 
 ## 许可
 

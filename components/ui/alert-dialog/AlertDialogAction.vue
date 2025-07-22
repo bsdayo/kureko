@@ -2,7 +2,6 @@
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
 import { AlertDialogAction, type AlertDialogActionProps } from 'reka-ui'
-import { cn } from '@/lib/utils'
 import { buttonVariants, type ButtonVariants } from '@/components/ui/button'
 
 const props = defineProps<

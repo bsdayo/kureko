@@ -2,35 +2,28 @@
   <div class="max-w-5xl mx-auto mt-32">
     <div class="grid grid-cols-4 gap-4">
       <div class="col-span-3 space-y-4">
-        <FormField v-slot="{ field }" name="title">
-          <FormItem>
-            <FormControl>
-              <textarea
-                ref="titleTA"
-                class="resize-none text-4xl font-extrabold outline-none overflow-visible placeholder:text-muted-foreground/50"
-                v-bind="field"
-                rows="1"
-                spellcheck="false"
-                :placeholder="base?.title"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
-        <div class="flex items-center gap-1 text-muted-foreground text-sm">
+        <div>
+          <textarea
+            ref="titleTA"
+            class="resize-none text-4xl font-extrabold outline-none overflow-visible placeholder:text-muted-foreground/50"
+            v-model="title"
+            v-bind="titleAttrs"
+            rows="1"
+            spellcheck="false"
+            :placeholder="base?.title || '标题'"
+          />
+          <div v-if="errors.title" class="text-sm text-destructive">{{ errors.title }}</div>
+        </div>
+
+        <div class="grid grid-cols-[auto_1fr] items-center gap-1 text-muted-foreground text-sm">
           <Hash class="size-4" />
-          <FormField v-slot="{ field }" name="slug">
-            <FormItem class="w-full">
-              <FormControl>
-                <input
-                  class="font-mono outline-none placeholder:text-muted-foreground/50"
-                  v-bind="field"
-                  :placeholder="base?.slug"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+          <input
+            class="font-mono outline-none placeholder:text-muted-foreground/50"
+            v-model="slug"
+            v-bind="slugAttrs"
+            :placeholder="base?.slug || 'slug'"
+          />
+          <div v-if="errors.slug" class="col-start-2 text-destructive">{{ errors.slug }}</div>
         </div>
       </div>
       <div class="flex gap-2 justify-end">
@@ -66,24 +59,25 @@ import { contentEditorExtensions } from '~/editor'
 const draftId = useRoute().params.id as string
 const pb = usePocketBase()
 
-const metadataSchema = toTypedSchema(
-  z.object({
-    title: z
-      .string()
-      .nonempty()
-      .and(z.custom((val) => val && !val.includes('\n'), 'Line breaks are not allowed')),
-    slug: z.string().nonempty().regex(SLUG_REGEX),
-  })
-)
-const metadataForm = useForm({
-  validationSchema: metadataSchema,
+const { defineField, setValues, meta, errors } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      title: z
+        .string()
+        .nonempty()
+        .and(z.custom((val) => val && !val.includes('\n'), 'Line breaks are not allowed')),
+      slug: z.string().nonempty().regex(SLUG_REGEX),
+    })
+  ),
 })
+const [title, titleAttrs] = defineField('title')
+const [slug, slugAttrs] = defineField('slug')
 
-usePageTitle(computed(() => '编辑：' + metadataForm.values.title))
+usePageTitle(computed(() => '编辑：' + title.value))
 
 const { textarea: titleTA, input: titleTAInput } = useTextareaAutosize()
 watch(
-  () => metadataForm.values.title,
+  () => title.value,
   (title) => {
     titleTAInput.value = title ?? ''
   }
@@ -98,7 +92,7 @@ onMounted(async () => {
   const draft = await pb.collection('drafts').getOne(draftId, { expand: 'base' })
   base.value = draft.expand?.base as Content | undefined
 
-  metadataForm.setValues(draft)
+  setValues(draft)
   editor.value = new Editor({
     editorProps: {
       attributes: {
@@ -122,9 +116,9 @@ onBeforeUnmount(() => {
 let stopWatchingContent: WatchStopHandle
 onMounted(() => {
   stopWatchingContent = watchThrottled(
-    contentDirty,
-    async () => {
-      if (contentDirty.value && editor.value) {
+    () => contentDirty.value,
+    async (dirty) => {
+      if (dirty && editor.value) {
         await pb.collection('drafts').update(draftId, {
           content: editor.value.getJSON(),
         })
@@ -141,12 +135,12 @@ onBeforeUnmount(() => stopWatchingContent())
 let stopWatchingMetadata: WatchStopHandle
 onMounted(() => {
   stopWatchingMetadata = watchThrottled(
-    metadataForm.meta,
+    () => meta.value,
     async (meta) => {
       if (meta.touched && !meta.pending && meta.valid) {
         await pb.collection('drafts').update(draftId, {
-          title: metadataForm.values.title,
-          slug: metadataForm.values.slug,
+          title: title.value,
+          slug: slug.value,
         })
         console.log('Metadata auto-saved.')
       }

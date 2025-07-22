@@ -1,4 +1,4 @@
-@reference "./variables.css";
+@reference './tailwind.css';
 
 html {
   @apply scroll-smooth;
@@ -77,8 +77,8 @@ Images
 /*==============
 Shiki CodeBlocks
 ==============*/
-html.dark .shiki,
-html.dark .shiki span {
+html.dark-mode .shiki,
+html.dark-mode .shiki span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
 }

@@ -4,21 +4,26 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
 
-  css: ['~/assets/styles/variables.css', '~/assets/styles/typography.css'],
+  css: ['~/assets/css/tailwind.css', '~/assets/css/typography.css'],
+
+  devtools: { enabled: true },
 
   vite: {
     plugins: [tailwindcss()],
   },
 
-  devtools: { enabled: true },
-  modules: ['shadcn-nuxt', '@nuxtjs/color-mode'],
-  shadcn: {
-    prefix: '',
-    componentDir: './components/ui',
+  components: {
+    dirs: [
+      {
+        path: '~/components/ui',
+        extensions: ['.vue'],
+        pathPrefix: false,
+      },
+      '~/components',
+    ],
   },
-  colorMode: {
-    classSuffix: '',
-  },
+
+  modules: ['@nuxtjs/color-mode'],
 
   runtimeConfig: {
     public: {

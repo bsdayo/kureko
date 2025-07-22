@@ -32,40 +32,7 @@
       class="grid transition-[grid-template-rows] overflow-hidden"
       :class="showUserInfoForm ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
     >
-      <form
-        @submit="submitUserInfo"
-        class="overflow-hidden grid sm:grid-cols-[1fr_1fr_auto_auto] gap-2 p-2 border-b"
-      >
-        <FormField v-slot="{ componentField }" name="name">
-          <FormItem class="grid grid-cols-[auto_1fr]">
-            <FormLabel class="h-9">
-              <IdCard class="size-4" />
-            </FormLabel>
-            <FormControl>
-              <Input v-bind="componentField" :placeholder="user?.name" />
-            </FormControl>
-            <FormMessage class="col-start-2" />
-          </FormItem>
-        </FormField>
-        <FormField v-slot="{ componentField }" name="website">
-          <FormItem class="grid grid-cols-[auto_1fr]">
-            <FormLabel class="h-9">
-              <Link class="size-4" />
-            </FormLabel>
-            <FormControl>
-              <Input v-bind="componentField" :placeholder="user?.website || '网站'" />
-            </FormControl>
-            <FormMessage class="col-start-2" />
-          </FormItem>
-        </FormField>
-        <Button type="submit" class="sm:size-9">
-          <Check />
-        </Button>
-
-        <Button size="icon" variant="ghost" class="text-destructive-foreground" @click="logOut">
-          <LogOut />
-        </Button>
-      </form>
+      <ContentCommentUserForm @log-out="() => showUserInfoForm = false" />
     </div>
 
     <div class="min-h-32">
@@ -139,32 +106,7 @@ async function loginWithGithub() {
   }
 }
 
-// Update user info
 const showUserInfoForm = ref(false)
-const schema = toTypedSchema(
-  z.object({
-    name: z.string().nonempty(),
-    website: z.string().url().optional().or(z.literal('')),
-  })
-)
-const form = useForm({
-  validationSchema: schema,
-})
-const submitUserInfo = form.handleSubmit(async (values) => {
-  if (!user.value) return
-  const newUserInfo = await pb.collection('users').update(user.value?.id, {
-    name: values.name,
-    website: values.website || null,
-  })
-  toast.success('用户信息已更新。')
-  user.value = newUserInfo
-})
-
-function logOut() {
-  showUserInfoForm.value = false
-  pb.authStore.clear()
-  toast.success('已登出。')
-}
 
 async function createComment() {
   if (!contentId || !editor.value || !user.value) return
