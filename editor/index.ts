@@ -5,12 +5,14 @@ import Link from '@tiptap/extension-link'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import Image from '@tiptap/extension-image'
+import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import { Details, DetailsSummary, DetailsContent } from '@tiptap/extension-details'
 
 import { HeadingWithAnchor } from './heading'
 import { CodeBlockShiki } from './codeblock'
 import { Figure, Figcaption } from './figure'
 import { Alert, AlertContent, AlertTitle } from './alert'
+import { GitHubUser } from './github'
 
 export function contentEditorExtensions() {
   return [
@@ -31,6 +33,7 @@ export function contentEditorExtensions() {
     Subscript,
     Superscript,
     Image,
+    Emoji.configure({ emojis: gitHubEmojis }),
     Figure,
     Figcaption,
     // Details,
@@ -39,6 +42,7 @@ export function contentEditorExtensions() {
     Alert,
     AlertTitle,
     AlertContent,
+    GitHubUser,
   ]
 }
 
@@ -57,5 +61,7 @@ export function commentEditorExtensions({ placeholder }: { placeholder: string }
     Link.extend({ inclusive: false }).configure({ openOnClick: false }),
     Subscript,
     Superscript,
+    Emoji.configure({ emojis: gitHubEmojis }),
+    GitHubUser,
   ]
 }

@@ -210,6 +210,22 @@
         <CircleCheck />
       </ToggleGroupItem>
     </ToggleGroup>
+
+    <ToggleGroup type="multiple" variant="outline" v-if="mode === 'full'">
+      <Popover>
+        <PopoverTrigger as-child>
+          <ToggleGroupItem value="githubUser" :data-state="toState(editor?.isActive('githubUser'))">
+            <GitHubIcon class="fill-current" />
+          </ToggleGroupItem>
+        </PopoverTrigger>
+        <PopoverContent class="flex gap-2">
+          <Input v-model="githubUserInput" placeholder="用户名" />
+          <Button @click="setGitHubUser" size="icon" :disabled="!githubUserInput">
+            <Check />
+          </Button>
+        </PopoverContent>
+      </Popover>
+    </ToggleGroup>
   </div>
 </template>
 
@@ -241,6 +257,7 @@ import {
   CircleCheck,
   Text,
 } from 'lucide-vue-next'
+import { GitHubIcon } from 'vue3-simple-icons'
 
 const { editor } = defineProps<{
   editor?: Editor
@@ -360,5 +377,13 @@ function setImage(url?: string) {
     })
     .run()
   imagePopoverOpen.value = false
+}
+
+const githubUserInput = ref('')
+const githubUserPopoverOpen = ref(false)
+function setGitHubUser() {
+  editor?.chain().focus().insertGitHubUser(githubUserInput.value).run()
+  githubUserPopoverOpen.value = false
+  githubUserInput.value = ''
 }
 </script>

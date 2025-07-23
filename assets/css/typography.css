@@ -4,9 +4,9 @@ html {
   @apply scroll-smooth;
 }
 
-/*=========
-Placeholder
-=========*/
+/*====
+TipTap
+====*/
 .tiptap p.is-editor-empty:first-child::before {
   @apply text-muted-foreground/50 float-left pointer-events-none h-0;
   content: attr(data-placeholder);
@@ -44,18 +44,6 @@ h6:hover .heading-anchor-link {
 }
 .heading-anchor-link:hover {
   @apply text-foreground;
-}
-
-/*===
-Links
-===*/
-.prose a[href]:not(.heading-anchor-link)::before {
-  @apply inline-block bg-current size-4 mask-cover mx-1 translate-y-0.5;
-  content: '';
-  mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWxpbmstaWNvbiBsdWNpZGUtbGluayI+PHBhdGggZD0iTTEwIDEzYTUgNSAwIDAgMCA3LjU0LjU0bDMtM2E1IDUgMCAwIDAtNy4wNy03LjA3bC0xLjcyIDEuNzEiLz48cGF0aCBkPSJNMTQgMTFhNSA1IDAgMCAwLTcuNTQtLjU0bC0zIDNhNSA1IDAgMCAwIDcuMDcgNy4wN2wxLjcxLTEuNzEiLz48L3N2Zz4=');
-}
-.prose.prose-sm a[href]:not(.heading-anchor-link)::before {
-  @apply size-3;
 }
 
 /*====
@@ -152,3 +140,19 @@ Alerts
 .prose div.alert[data-type='success'] blockquote {
   @apply border-green-400/50;
 }
+
+/*====
+GitHub
+====*/
+span.github-user a {
+  @apply leading-4 inline-flex translate-y-[3px] gap-1 p-1 items-center rounded border text-sm no-underline mx-1;
+}
+span.github-user a::before {
+  @apply inline-block size-[1.2em] rounded-xs;
+  content: '';
+  background-image: var(--avatar);
+  background-size: cover;
+}
+/* span.github-user a img {
+  @apply inline-block size-[1.1em] m-0 rounded-xs;
+} */

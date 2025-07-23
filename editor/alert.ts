@@ -43,7 +43,7 @@ export const AlertContent = Node.create({
 export const Alert = Node.create({
   name: 'alert',
   group: 'block',
-  content: 'alertTitle alertContent*',
+  content: 'alertTitle alertContent?',
   isolating: true,
 
   addAttributes() {
