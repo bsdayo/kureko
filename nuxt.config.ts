@@ -4,6 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
 
+  nitro: {
+    cloudflare: {
+      nodeCompat: true,
+    },
+  },
+
   css: ['~/assets/css/tailwind.css', '~/assets/css/typography.css'],
 
   devtools: { enabled: true },
