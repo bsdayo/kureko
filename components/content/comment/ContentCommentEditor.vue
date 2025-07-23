@@ -16,7 +16,7 @@
           <SendHorizonal />
           <span>{{ parentCommentId ? '回复' : '评论' }}</span>
         </Button>
-        <Button v-else @click="loginWithGithub">
+        <Button v-else @click="loginWithGitHub">
           <GitHubIcon class="fill-current" />
           <span>登录以{{ parentCommentId ? '回复' : '评论' }}</span>
         </Button>
@@ -44,11 +44,8 @@
 
 <script lang="ts" setup>
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
-import z from 'zod'
 import { commentEditorExtensions } from '~/editor'
-import { SendHorizonal, Check, IdCard, Link, LogOut } from 'lucide-vue-next'
+import { SendHorizonal } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import { GitHubIcon } from 'vue3-simple-icons'
 
@@ -90,17 +87,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   editor.value?.destroy()
 })
-
-async function loginWithGithub() {
-  try {
-    const user = await pb.collection('users').authWithOAuth2({
-      provider: 'github',
-    })
-    toast.success(`欢迎回来，${user?.record.name}。`)
-  } catch (error) {
-    toast.error(error instanceof Error ? error.message : '登录失败！')
-  }
-}
 
 const showUserInfoForm = ref(false)
 

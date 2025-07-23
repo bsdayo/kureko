@@ -1,48 +1,46 @@
 <template>
-  <div class="max-w-5xl mx-auto mt-32">
-    <div class="grid grid-cols-4 gap-4">
-      <div class="col-span-3 space-y-4">
-        <div>
-          <textarea
-            ref="titleTA"
-            class="resize-none text-4xl font-extrabold outline-none overflow-visible placeholder:text-muted-foreground/50"
-            v-model="title"
-            v-bind="titleAttrs"
-            rows="1"
-            spellcheck="false"
-            :placeholder="base?.title || '标题'"
-          />
-          <div v-if="errors.title" class="text-sm text-destructive">{{ errors.title }}</div>
-        </div>
+  <div class="sticky z-40 border-b p-2 top-16 bg-background grid grid-cols-[1fr_auto_auto] gap-2">
+    <div class="overflow-x-scroll">
+      <EditorControls mode="full" :editor="editor" :draft-id="draftId" />
+    </div>
+    <Separator orientation="vertical" />
+    <div class="flex gap-2">
+      <EditorDeleteDialog :draft-id="draftId" />
+      <EditorInspectDialog :editor="editor" />
+      <EditorPublishOrUpdateDialog :base-id="base?.id" :draft-id="draftId" />
+    </div>
+  </div>
 
-        <div class="grid grid-cols-[auto_1fr] items-center gap-1 text-muted-foreground text-sm">
-          <Hash class="size-4" />
-          <input
-            class="font-mono outline-none placeholder:text-muted-foreground/50"
-            v-model="slug"
-            v-bind="slugAttrs"
-            :placeholder="base?.slug || 'slug'"
-          />
-          <div v-if="errors.slug" class="col-start-2 text-destructive">{{ errors.slug }}</div>
-        </div>
+  <div class="max-w-prose mx-auto mt-16">
+    <div class="space-y-4">
+      <div>
+        <textarea
+          ref="titleTA"
+          class="resize-none text-4xl font-extrabold outline-none overflow-visible placeholder:text-muted-foreground/50"
+          v-model="title"
+          v-bind="titleAttrs"
+          rows="1"
+          spellcheck="false"
+          :placeholder="base?.title || '标题'"
+        />
+        <div v-if="errors.title" class="text-sm text-destructive">{{ errors.title }}</div>
       </div>
-      <div class="flex gap-2 justify-end">
-        <EditorDeleteDialog :draft-id="draftId" />
-        <EditorInspectDialog :editor="editor" />
-        <EditorPublishOrUpdateDialog :base-id="base?.id" :draft-id="draftId" />
+
+      <div class="grid grid-cols-[auto_1fr] items-center gap-1 text-muted-foreground text-sm">
+        <Hash class="size-4" />
+        <input
+          class="font-mono outline-none placeholder:text-muted-foreground/50"
+          v-model="slug"
+          v-bind="slugAttrs"
+          :placeholder="base?.slug || 'slug'"
+        />
+        <div v-if="errors.slug" class="col-start-2 text-destructive">{{ errors.slug }}</div>
       </div>
     </div>
 
     <Separator class="mt-4 mb-8" />
 
-    <div class="grid grid-cols-4 items-start gap-4">
-      <EditorContent class="col-span-3" :editor="editor" spellcheck="false" />
-
-      <div class="sticky top-16 grid gap-4">
-        <EditorControls wrap mode="full" :editor="editor" :draft-id="draftId" />
-        <ContentToc :content="editorJson" />
-      </div>
-    </div>
+    <EditorContent class="col-span-3" :editor="editor" spellcheck="false" />
   </div>
 </template>
 
@@ -107,6 +105,8 @@ onMounted(async () => {
     contentDirty.value = true
     editorJson.value = editor.getJSON()
   })
+
+  editor.value.commands.focus('end')
 })
 onBeforeUnmount(() => {
   editor.value?.destroy()

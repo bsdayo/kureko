@@ -60,22 +60,19 @@
 import { PenSquare } from 'lucide-vue-next'
 import dayjs from 'dayjs'
 
-const props = defineProps<{
-  content?: Content | null
-}>()
-
 const pb = usePocketBase()
 const user = useUserState()
+const content = useContentState()
 
 const loadingDrafts = ref(false)
 const previousDrafts = ref<Draft[]>([])
 
 async function fetchPreviousDrafts() {
-  if (!props.content) return
+  if (!content.value) return
   try {
     loadingDrafts.value = true
     previousDrafts.value = await pb.collection('drafts').getFullList({
-      filter: `base = "${props.content.id}" && type = "${props.content.type}"`,
+      filter: `base = "${content.value.id}" && type = "${content.value.type}"`,
       sort: '-updated',
     })
   } finally {
@@ -84,15 +81,15 @@ async function fetchPreviousDrafts() {
 }
 
 async function newDraft() {
-  if (!props.content) return
-  console.log(props.content)
+  if (!content.value) return
+  console.log(content.value)
   const draft = await pb.collection('drafts').create({
-    base: props.content.id,
-    type: props.content.type,
-    title: props.content.title,
-    slug: props.content.slug,
-    content: props.content.content,
-    images: props.content.images,
+    base: content.value.id,
+    type: content.value.type,
+    title: content.value.title,
+    slug: content.value.slug,
+    content: content.value.content,
+    images: content.value.images,
   })
   await navigateTo(`/editor/${draft.id}`)
 }

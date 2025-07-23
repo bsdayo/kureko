@@ -31,9 +31,9 @@
           v-if="user?.owner"
           variant="ghost"
           size="icon"
-          @click="() => (writeDialogOpen = true)"
+          @click="() => (adminDialogOpen = true)"
         >
-          <PenSquare />
+          <Command />
         </Button>
       </div>
     </div>
@@ -46,19 +46,19 @@
       <LayoutMobileDrawer />
     </div>
   </div>
-  <WriteDialog v-model="writeDialogOpen" />
+  <AdminDialog v-model="adminDialogOpen" />
 </template>
 
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
-import { PenSquare } from 'lucide-vue-next'
+import { Command } from 'lucide-vue-next'
 
 const pb = usePocketBase()
 const user = useUserState()
 
 const content = useContentState()
 
-const writeDialogOpen = ref(false)
+const adminDialogOpen = ref(false)
 
 const { directions, y } = useWindowScroll()
 const scrollingUp = ref(false)

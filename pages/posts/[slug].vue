@@ -1,43 +1,31 @@
 <template>
-  <div class="max-w-5xl mx-auto mt-32">
-    <div class="grid grid-cols-4 gap-4">
-      <div class="col-span-3 space-y-4">
-        <LayoutHeading>{{ data?.title }}</LayoutHeading>
-        <div class="flex gap-4 text-muted-foreground text-sm">
-          <div class="flex items-center gap-1">
-            <Calendar class="size-4" />
-            <span>{{ dayjs(data?.created).format('YYYY 年 M 月 D 日') }}</span>
-          </div>
+  <div class="max-w-prose mx-auto mt-16 mb-4">
+    <div class="space-y-2">
+      <LayoutHeading>{{ data?.title }}</LayoutHeading>
+      <div class="flex gap-4 text-muted-foreground text-sm">
+        <div class="flex items-center gap-1">
+          <Calendar class="size-4" />
+          <span>{{ dayjs(data?.created).format('YYYY 年 M 月 D 日') }}</span>
         </div>
-      </div>
-      <div class="flex gap-2 justify-end">
-        <ContentEditDialog :content="data" />
       </div>
     </div>
 
     <Separator class="mt-4 mb-8" />
 
-    <div class="sm:grid grid-cols-4 items-start gap-4">
-      <div class="col-span-3">
-        <div class="prose dark:prose-invert max-w-none" v-html="html" />
-        <Separator class="my-8" />
-        <ContentCommentEditor
-          @comment-submitted="() => commentList?.fetchComments()"
-          :content-id="data?.id"
-        />
-        <ContentCommentList ref="commentList" :content-id="data?.id" />
-      </div>
+    <div class="prose dark:prose-invert" v-html="html" />
 
-      <div class="hidden sm:grid sm:sticky top-20 gap-4">
-        <ContentToc :content="data?.content" />
-      </div>
-    </div>
+    <Separator class="my-8" />
+
+    <ContentCommentEditor
+      @comment-submitted="() => commentList?.fetchComments()"
+      :content-id="data?.id"
+    />
+    <ContentCommentList ref="commentList" :content-id="data?.id" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
-import { syncRef } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { Calendar } from 'lucide-vue-next'
 import mediumZoom from 'medium-zoom'

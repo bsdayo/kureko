@@ -1,12 +1,18 @@
 <template>
   <CommandDialog v-model:open="open">
-    <CommandInput placeholder="搜索草稿..." />
+    <CommandInput placeholder="做些什么呢？" />
     <CommandList>
-      <CommandEmpty>无结果</CommandEmpty>
-      <CommandGroup>
-        <CommandItem value="new" @select="newContent">
-          <Plus />
-          <span>新建文章</span>
+      <CommandEmpty class="text-muted-foreground">无结果</CommandEmpty>
+      <CommandGroup heading="操作">
+        <CommandItem value="create" @select="createDraft">
+          <PlusCircle />
+          <span>新建草稿</span>
+          <span class="hidden">create new write</span>
+        </CommandItem>
+        <CommandItem v-if="content" value="edit" @select="editContent">
+          <PenSquare />
+          <span>编辑本文</span>
+          <span class="hidden">edit write</span>
         </CommandItem>
       </CommandGroup>
       <CommandSeparator />
@@ -29,10 +35,11 @@
 </template>
 
 <script setup lang="ts">
-import { NotepadTextDashed, Plus } from 'lucide-vue-next'
+import { NotepadTextDashed, Pen, PenSquare, Plus, PlusCircle } from 'lucide-vue-next'
 import dayjs from 'dayjs'
 
 const pb = usePocketBase()
+const content = useContentState()
 
 const open = defineModel<boolean>()
 const drafts = ref<Draft[]>([])
@@ -44,7 +51,7 @@ watch(open, async (val) => {
   })
 })
 
-async function newContent() {
+async function createDraft() {
   const now = dayjs()
   const draft = await pb.collection('drafts').create({
     type: 'post',
@@ -52,6 +59,21 @@ async function newContent() {
     slug: 'untitled-' + now.format('YYYYMMDDHHmmss'),
   })
   await navigateTo('/editor/' + draft.id)
+  open.value = false
+}
+
+async function editContent() {
+  if (!content.value) return
+  console.log(content.value)
+  const draft = await pb.collection('drafts').create({
+    base: content.value.id,
+    type: content.value.type,
+    title: content.value.title,
+    slug: content.value.slug,
+    content: content.value.content,
+    images: content.value.images,
+  })
+  await navigateTo(`/editor/${draft.id}`)
   open.value = false
 }
 </script>
