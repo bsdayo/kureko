@@ -1,74 +1,86 @@
 <template>
-  <div class="h-128 flex justify-center items-center">
-    <img class="size-64 rounded-full mr-16" :src="kurekoConfig?.author.avatarUrl" alt="Avatar" />
-    <div class="min-w-80">
-      <h1 class="font-bold text-4xl mb-2">@{{ kurekoConfig?.author.name }}</h1>
-      <p class="mb-4">{{ kurekoConfig?.author.bio }}</p>
-      <div class="flex gap-2">
-        <a
-          v-for="item in socialButtons"
-          :key="item.link"
-          :href="item.link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button
-            size="icon"
-            class="text-(--fg) bg-(--bg) hover:bg-(--bg)/90"
-            :style="{
-              '--fg': item.fg,
-              '--bg': item.bg,
-            }"
-          >
-            <span class="fill-current" v-html="item.iconHtml" />
-          </Button>
-        </a>
-      </div>
+  <div class="max-w-prose mx-auto py-16">
+    <div class="space-y-2">
+      <LayoutHeading v-if="error?.statusCode === 404">
+        欢迎使用 <a class="underline" href="https://github.com/bsdayo/kureko">Kureko</a>！
+      </LayoutHeading>
+      <LayoutHeading v-else>{{ content?.title }}</LayoutHeading>
+    </div>
+
+    <Separator class="my-8" />
+
+    <div class="prose dark:prose-invert" v-if="content" v-html="html" />
+
+    <div v-if="error?.statusCode === 404" class="prose dark:prose-invert">
+      <p>这里的说明将指引你创建管理员账号，并编辑主页的内容。</p>
+
+      <p>
+        首先，你需要使用一个管理员账号登录。
+        <a class="cursor-pointer" @click="loginWithGitHub">点击此处使用 GitHub 登录</a>。
+      </p>
+      <p v-if="user" class="text-sm text-green-600 dark:text-green-500 flex items-center gap-1">
+        <Check class="size-4" />
+        <span>已登录为 {{ user.name }}。</span>
+      </p>
+      <p v-else class="text-sm text-red-600 dark:text-red-500 flex items-center gap-1">
+        <CircleAlert class="size-4" />
+        <span>未登录</span>
+      </p>
+
+      <p>
+        登录后，<a :href="pbAdminUrl">前往 PocketBase 管理界面</a>，在
+        <code>users</code> 集合中，将你账号的 <code>owner</code> 属性设置为 <code>true</code>。
+      </p>
+      <p>
+        设置后，你需要<a class="cursor-pointer" @click="loginWithGitHub">重新登录</a>以更新状态。
+      </p>
+      <p
+        v-if="user?.owner"
+        class="text-sm text-green-600 dark:text-green-500 flex items-center gap-1"
+      >
+        <Check class="size-4" />
+        <span>当前登录用户已为管理员。</span>
+      </p>
+      <p v-else class="text-sm text-red-600 dark:text-red-500 flex items-center gap-1">
+        <CircleAlert class="size-4" />
+        <span>当前登录用户不为管理员。</span>
+      </p>
+
+      <p>
+        现在，你可以<a class="cursor-pointer" @click="createHomeDraft">点击这里</a
+        >进入主页的编辑页面。在编辑器中发布后，本说明将被覆盖。
+      </p>
+      <p>
+        后续，你可以点击右上角的
+        <Command class="inline-block -translate-y-[2px] size-4" />
+        按钮，选择“编辑本文”再次修改。
+      </p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Check, CircleAlert, Command } from 'lucide-vue-next'
+
 usePageTitle('首页')
 
 const kurekoConfig = useKurekoConfig()
-const socialButtons = computed(() => {
-  return kurekoConfig.value?.author.social.map((item) => {
-    if (!item.iconHtml && item.iconUrl) {
-      if (item.iconUrl.startsWith('data:image/svg')) {
-        item.iconHtml = `<div class="size-4 bg-(--fg)" style="mask: url('${item.iconUrl}'); mask-size: cover;" />`
-      } else {
-        item.iconHtml = `<img src="${item.iconUrl}" class="size-4" />`
-      }
-    }
+const user = useUserState()
+const runtimeConfig = useRuntimeConfig()
 
-    if (item.type === 'email') {
-      item.iconHtml ??=
-        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>'
-      item.fg ??= '#fff'
-      item.bg ??= 'oklch(62.3% 0.214 259.815)'
-    } else if (item.type === 'github') {
-      item.iconHtml ??=
-        '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>'
-      item.fg ??= '#fff'
-      item.bg ??= '#000'
-    } else if (item.type === 'steam') {
-      item.iconHtml ??=
-        '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Steam</title><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg>'
-      item.fg ??= '#fff'
-      item.bg ??= 'rgb(23, 27, 33)'
-    } else if (item.type === 'bilibili') {
-      item.iconHtml ??=
-        '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>'
-      item.fg ??= '#fff'
-      item.bg ??= '#00A1D6'
-    } else if (item.type === 'neteaseCloudMusic') {
-      item.iconHtml ??=
-        '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>NetEase Cloud Music</title><path d="M13.046 9.388a3.919 3.919 0 0 0-.66.19c-.809.312-1.447.991-1.666 1.775a2.269 2.269 0 0 0-.074.81c.048.546.333 1.05.764 1.35a1.483 1.483 0 0 0 2.01-.286c.406-.531.355-1.183.24-1.636-.098-.387-.22-.816-.345-1.249a64.76 64.76 0 0 1-.269-.954zm-.82 10.07c-3.984 0-7.224-3.24-7.224-7.223 0-.98.226-3.02 1.884-4.822A7.188 7.188 0 0 1 9.502 5.6a.792.792 0 1 1 .587 1.472 5.619 5.619 0 0 0-2.795 2.462 5.538 5.538 0 0 0-.707 2.7 5.645 5.645 0 0 0 5.638 5.638c1.844 0 3.627-.953 4.542-2.428 1.042-1.68.772-3.931-.627-5.238a3.299 3.299 0 0 0-1.437-.777c.172.589.334 1.18.494 1.772.284 1.12.1 2.181-.519 2.989-.39.51-.956.888-1.592 1.064a3.038 3.038 0 0 1-2.58-.44 3.45 3.45 0 0 1-1.44-2.514c-.04-.467.002-.93.128-1.376.35-1.256 1.356-2.339 2.622-2.826a5.5 5.5 0 0 1 .823-.246l-.134-.505c-.37-1.371.25-2.579 1.547-3.007.329-.109.68-.145 1.025-.105.792.09 1.476.592 1.709 1.023.258.507-.096 1.153-.706 1.153a.788.788 0 0 1-.54-.213c-.088-.08-.163-.174-.259-.247a.825.825 0 0 0-.632-.166.807.807 0 0 0-.634.551c-.056.191-.031.406.02.595.07.256.159.597.217.82 1.11.098 2.162.54 2.97 1.296 1.974 1.844 2.35 4.886.892 7.233-1.197 1.93-3.509 3.177-5.889 3.177zM0 12c0 6.627 5.373 12 12 12s12-5.373 12-12S18.627 0 12 0 0 5.373 0 12Z"/></svg>'
-      item.fg ??= '#fff'
-      item.bg ??= '#D43C33'
-    }
-    return item
+const pbAdminUrl = new URL('/_/', runtimeConfig.public.pocketbaseUrl).toString()
+
+const { content, error, html } = useContent(`type = "home"`)
+
+async function createHomeDraft() {
+  const pb = usePocketBase()
+  const draft = await pb.collection('drafts').create({
+    type: 'home',
+    title: '@' + kurekoConfig.value?.author.name,
+    slug: 'home',
   })
-})
+  await navigateTo('/editor/' + draft.id)
+}
+
+onMounted(postprocessContent)
 </script>

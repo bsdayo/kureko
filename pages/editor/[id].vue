@@ -7,7 +7,7 @@
     <div class="flex gap-2">
       <EditorDeleteDialog :draft-id="draftId" />
       <EditorInspectDialog :editor="editor" />
-      <EditorPublishOrUpdateDialog :base-id="base?.id" :draft-id="draftId" />
+      <EditorPublishOrUpdateDialog :base-id="base?.id" :draft-id="draftId" :draft-type="draftType" />
     </div>
   </div>
 
@@ -55,6 +55,7 @@ import { Hash } from 'lucide-vue-next'
 import { contentEditorExtensions } from '~/editor'
 
 const draftId = useRoute().params.id as string
+const draftType = ref('post')
 const pb = usePocketBase()
 
 const { defineField, setValues, meta, errors } = useForm({
@@ -89,6 +90,7 @@ const contentDirty = ref(false)
 onMounted(async () => {
   const draft = await pb.collection('drafts').getOne(draftId, { expand: 'base' })
   base.value = draft.expand?.base as Content | undefined
+  draftType.value = draft.type
 
   setValues(draft)
   editor.value = new Editor({

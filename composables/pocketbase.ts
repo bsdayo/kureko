@@ -1,7 +1,7 @@
 import type { DocumentType } from '@tiptap/core'
 import PocketBase, { RecordService } from 'pocketbase'
 
-export type ContentType = 'post'
+export type ContentType = 'home' | 'post'
 
 export interface User {
   id: string

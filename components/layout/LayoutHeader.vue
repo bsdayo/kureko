@@ -9,18 +9,16 @@
       <div class="grow flex items-center relative">
         <LayoutDesktopNavigationMenu
           class="absolute transition-opacity"
-          :style="
-            content ? `opacity: ${scrollingUp ? 1 : 0}; z-index: ${scrollingUp ? 1 : 0};` : ''
-          "
+          :style="inPost ? `opacity: ${scrollingUp ? 1 : 0}; z-index: ${scrollingUp ? 1 : 0};` : ''"
         />
 
         <div
-          v-if="content"
+          v-if="inPost"
           class="absolute transition-opacity"
           :style="`opacity: ${scrollingUp ? 0 : 1}; z-index: ${scrollingUp ? 0 : 1};`"
         >
-          <div class="text-xs text-muted-foreground">{{ content.slug }}</div>
-          <div>{{ content.title }}</div>
+          <div class="text-xs text-muted-foreground">{{ content!.slug }}</div>
+          <div>{{ content!.title }}</div>
         </div>
       </div>
 
@@ -57,6 +55,7 @@ const pb = usePocketBase()
 const user = useUserState()
 
 const content = useContentState()
+const inPost = computed(() => content.value && content.value.type === 'post')
 
 const adminDialogOpen = ref(false)
 

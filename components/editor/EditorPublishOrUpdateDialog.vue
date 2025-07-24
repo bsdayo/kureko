@@ -9,7 +9,7 @@
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>{{ verb }}</AlertDialogTitle>
-        <AlertDialogDescription>确认{{ verb }}此文章吗？</AlertDialogDescription>
+        <AlertDialogDescription>确认{{ verb }}此{{ noun }}吗？</AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>取消</AlertDialogCancel>
@@ -28,7 +28,10 @@ const pb = usePocketBase()
 const props = defineProps<{
   baseId?: string
   draftId: string
+  draftType: string
 }>()
+
+const noun = computed(() => (props.draftType === 'home' ? '主页' : '文章'))
 const verb = computed(() => (props.baseId ? '更新' : '发布'))
 
 async function execute() {
@@ -47,7 +50,7 @@ async function execute() {
 
   await pb.collection('drafts').delete(props.draftId)
 
-  toast.success(`文章已${verb.value}。`)
-  await navigateTo(`/posts/${content.slug}`)
+  toast.success(`${noun.value}已${verb.value}。`)
+  await navigateTo(props.draftType === 'home' ? '/' : `/posts/${content.slug}`)
 }
 </script>

@@ -26,7 +26,10 @@
         class="relative mt-4 rounded-lg border px-4 py-3 bg-card text-card-foreground"
         :style="`margin-left: calc(24px * ${comment.level})`"
       >
-        <CornerLeftUp v-if="comment.level > 0" class="text-muted-foreground opacity-30 absolute top-0 -left-6 size-4" />
+        <CornerLeftUp
+          v-if="comment.level > 0"
+          class="text-muted-foreground opacity-30 absolute top-0 -left-6 size-4"
+        />
 
         <div class="flex gap-2 items-center text-sm">
           <Avatar>
@@ -84,7 +87,7 @@
 <script lang="ts" setup>
 import type { Comment } from '#imports'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
-import { contentEditorExtensions } from '~/editor'
+import { commentEditorExtensions, contentEditorExtensions } from '~/editor'
 import dayjs from 'dayjs'
 import { CornerLeftUp, Reply } from 'lucide-vue-next'
 
@@ -122,7 +125,7 @@ async function fetchComments() {
         ...comment,
         html: renderToHTMLString({
           content: comment.content,
-          extensions: contentEditorExtensions(),
+          extensions: commentEditorExtensions({ placeholder: '' }),
         }),
         children: [],
         showReplyEditor: false,
