@@ -33,7 +33,10 @@ const slug = route.params.slug as string
 
 const commentList = useTemplateRef('commentList')
 
-const { content, html } = useContent(`slug = "${slug}"`)
+const { content, error, html } = useContent(`slug = "${slug}"`)
+if (error.value) {
+  showError(error.value)
+}
 
 usePageTitle(computed(() => content.value?.title))
 
