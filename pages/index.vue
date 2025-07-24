@@ -82,5 +82,5 @@ async function createHomeDraft() {
   await navigateTo('/editor/' + draft.id)
 }
 
-onMounted(postprocessContent)
+onMounted(() => postprocessContent('.prose'))
 </script>

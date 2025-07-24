@@ -20,7 +20,7 @@
     >
       还没有评论哦
     </div>
-    <ul v-else-if="!commentsLoading">
+    <ul class="comment-list" v-else-if="!commentsLoading">
       <li
         v-for="comment in renderedComments"
         class="relative mt-4 rounded-lg border px-4 py-3 bg-card text-card-foreground"
@@ -155,6 +155,7 @@ async function fetchComments() {
     renderedComments.value = result
   } finally {
     commentsLoading.value = false
+    nextTick(() => postprocessContent('.comment-list'))
   }
 }
 watch(() => contentId, fetchComments, { immediate: true })

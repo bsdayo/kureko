@@ -1,10 +1,12 @@
 import mediumZoom from 'medium-zoom'
 
-export async function postprocessContent() {
+export async function postprocessContent(selector: string) {
   // Highlight with shiki
   const highlighter = await getOrCreateHighlighter()
+  const target = document.querySelector(selector)
+  if (!target) return
 
-  for (const codeBlockEl of document.querySelectorAll('pre > code[class*=language-]')) {
+  for (const codeBlockEl of target.querySelectorAll('pre > code[class*=language-]')) {
     const pre = codeBlockEl.parentElement
     if (!pre) continue
 

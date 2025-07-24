@@ -37,5 +37,5 @@ const { content, html } = useContent(`slug = "${slug}"`)
 
 usePageTitle(computed(() => content.value?.title))
 
-onMounted(postprocessContent)
+onMounted(() => postprocessContent('.prose'))
 </script>
