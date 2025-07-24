@@ -211,7 +211,7 @@
       </ToggleGroupItem>
     </ToggleGroup>
 
-    <ToggleGroup type="multiple" variant="outline" v-if="mode === 'full'">
+    <ToggleGroup type="multiple" variant="outline">
       <Popover>
         <PopoverTrigger as-child>
           <ToggleGroupItem value="githubUser" :data-state="toState(editor?.isActive('githubUser'))">
