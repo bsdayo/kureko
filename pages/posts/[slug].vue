@@ -1,27 +1,29 @@
 <template>
-  <div class="max-w-prose mx-auto pt-16 pb-4">
-    <ContentHeader>
-      <ContentTitle :pending="pending">{{ content?.title }}</ContentTitle>
-      <ContentInfoList>
-        <ContentInfo :pending="pending">
-          <Calendar class="size-4" />
-          <span>{{ dayjs(content?.created).format('YYYY 年 M 月 D 日') }}</span>
-        </ContentInfo>
-      </ContentInfoList>
-    </ContentHeader>
+  <LayoutContainer>
+    <div class="max-w-prose">
+      <ContentHeader>
+        <ContentTitle :pending="pending">{{ content?.title }}</ContentTitle>
+        <ContentInfoList>
+          <ContentInfo :pending="pending">
+            <Calendar class="size-4" />
+            <span>{{ dayjs(content?.created).format('YYYY 年 M 月 D 日') }}</span>
+          </ContentInfo>
+        </ContentInfoList>
+      </ContentHeader>
 
-    <Separator class="mt-4 mb-8" />
+      <Separator class="mt-4 mb-8" />
 
-    <ContentContent :pending="pending" :html="html" />
+      <ContentContent :pending="pending" :html="html" />
 
-    <Separator class="my-8" />
+      <Separator class="my-8" />
 
-    <ContentCommentEditor
-      @comment-submitted="() => commentList?.fetchComments()"
-      :content-id="content?.id"
-    />
-    <ContentCommentList ref="commentList" :content-id="content?.id" />
-  </div>
+      <ContentCommentEditor
+        @comment-submitted="() => commentList?.fetchComments()"
+        :content-id="content?.id"
+      />
+      <ContentCommentList ref="commentList" :content-id="content?.id" />
+    </div>
+  </LayoutContainer>
 </template>
 
 <script lang="ts" setup>
