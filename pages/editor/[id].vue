@@ -1,5 +1,5 @@
 <template>
-  <div class="sticky z-40 border-b p-2 top-16 bg-background grid grid-cols-[1fr_auto_auto] gap-2">
+  <div class="fixed w-full z-40 border-b p-2 bg-background grid grid-cols-[1fr_auto_auto] gap-2">
     <div class="overflow-x-scroll">
       <EditorControls mode="full" :editor="editor" :draft-id="draftId" />
     </div>
@@ -7,11 +7,15 @@
     <div class="flex gap-2">
       <EditorDeleteDialog :draft-id="draftId" />
       <EditorInspectDialog :editor="editor" />
-      <EditorPublishOrUpdateDialog :base-id="base?.id" :draft-id="draftId" :draft-type="draftType" />
+      <EditorPublishOrUpdateDialog
+        :base-id="base?.id"
+        :draft-id="draftId"
+        :draft-type="draftType"
+      />
     </div>
   </div>
 
-  <div class="max-w-prose mx-auto mt-16">
+  <div class="max-w-prose mx-auto mt-[54px] pt-16">
     <div class="space-y-4">
       <div>
         <textarea

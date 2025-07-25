@@ -11,7 +11,9 @@ export function useContent(filter: string) {
   const pb = usePocketBase()
   const state = useContentState()
 
-  const { data, error } = useAsyncData(`content:${filter}`, async () => {
+  const { data, status, pending, error } = useAsyncData(`content:${filter}`, async () => {
+    // Simulate loading delay
+    // await new Promise((resolve) => setTimeout(resolve, 1000))
     return await pb.collection('contents').getFirstListItem(filter)
   })
 
@@ -38,5 +40,5 @@ export function useContent(filter: string) {
     state.value = null
   })
 
-  return { content: data, error, html }
+  return { content: data, status, pending, error, html }
 }

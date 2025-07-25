@@ -1,6 +1,6 @@
 import { findParentNode, mergeAttributes, Node } from '@tiptap/core'
 
-type AlertType = 'info' | 'warn' | 'error' | 'success'
+type AlertType = 'info' | 'warning' | 'error' | 'success'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

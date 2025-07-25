@@ -191,7 +191,7 @@
       <ToggleGroupItem
         value="alertWarn"
         :data-state="toState(editor?.isActive('alert', { type: 'warn' }))"
-        @click="editor?.chain().focus().toggleAlert('warn').run()"
+        @click="editor?.chain().focus().toggleAlert('warning').run()"
       >
         <TriangleAlert />
       </ToggleGroupItem>

@@ -1,11 +1,21 @@
 <template>
-  <div class="mx-auto max-w-2xl">
-    <!-- <LayoutHeading class="mt-32 mb-8">文章</LayoutHeading> -->
-    <div v-for="(posts, year) in groupedPosts">
-      {{ year }}
+  <div class="mx-auto max-w-prose py-32 space-y-24">
+    <div v-if="pending" class="space-y-6">
+      <div class="flex justify-between" v-for="_ in 5">
+        <Skeleton class="h-5 w-64" />
+        <Skeleton class="h-5 w-24" />
+      </div>
+    </div>
+    <div v-else v-for="(posts, year) in groupedPosts" class="relative space-y-6">
+      <div class="absolute text-8xl font-bold -top-12 -left-12 -z-10 opacity-10">
+        {{ year }}
+      </div>
       <div v-for="post in posts" :key="post.id" class="flex justify-between items-center">
-        <NuxtLink :to="`/posts/${post.slug}`">
-          <Button variant="link">{{ post.title }}</Button>
+        <NuxtLink
+          :to="`/posts/${post.slug}`"
+          class="text-foreground/70 hover:text-foreground transition-colors"
+        >
+          {{ post.title }}
         </NuxtLink>
         <span class="text-sm text-muted-foreground">
           {{ dayjs(post.created).format('YYYY-MM-DD') }}
@@ -22,7 +32,9 @@ usePageTitle('文章')
 
 const pb = usePocketBase()
 
-const { data } = useAsyncData('posts', async () => {
+const { data, pending } = useAsyncData('posts', async () => {
+  // Simulate loading delay
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
   return await pb.collection('contents').getFullList({
     sort: '-created',
     filter: 'type = "post"',

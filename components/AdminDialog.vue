@@ -14,6 +14,14 @@
           <span>编辑本文</span>
           <span class="hidden">edit write</span>
         </CommandItem>
+        <CommandItem
+          value="pocketbase"
+          @select="navigateTo(pbAdminUrl, { external: true, open: { target: '_blank' } })"
+        >
+          <Database />
+          <span>前往 PocketBase 管理面板</span>
+          <span class="hidden">pb</span>
+        </CommandItem>
       </CommandGroup>
       <CommandSeparator />
       <CommandGroup heading="草稿">
@@ -35,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { NotepadTextDashed, Pen, PenSquare, Plus, PlusCircle } from 'lucide-vue-next'
+import { Database, NotepadTextDashed, PenSquare, PlusCircle } from 'lucide-vue-next'
 import dayjs from 'dayjs'
 
 const pb = usePocketBase()
@@ -43,6 +51,9 @@ const content = useContentState()
 
 const open = defineModel<boolean>()
 const drafts = ref<Draft[]>([])
+
+const runtimeConfig = useRuntimeConfig()
+const pbAdminUrl = new URL('/_/', runtimeConfig.public.pocketbaseUrl).toString()
 
 watch(open, async (val) => {
   if (!val) return

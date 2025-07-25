@@ -133,3 +133,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility text-link {
+  text-decoration-line: underline;
+  text-underline-offset: 4px;
+}

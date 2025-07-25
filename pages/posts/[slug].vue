@@ -1,18 +1,18 @@
 <template>
   <div class="max-w-prose mx-auto pt-16 pb-4">
-    <div class="space-y-2">
-      <LayoutHeading>{{ content?.title }}</LayoutHeading>
-      <div class="flex gap-4 text-muted-foreground text-sm">
-        <div class="flex items-center gap-1">
+    <ContentHeader>
+      <ContentTitle :pending="pending">{{ content?.title }}</ContentTitle>
+      <ContentInfoList>
+        <ContentInfo :pending="pending">
           <Calendar class="size-4" />
           <span>{{ dayjs(content?.created).format('YYYY 年 M 月 D 日') }}</span>
-        </div>
-      </div>
-    </div>
+        </ContentInfo>
+      </ContentInfoList>
+    </ContentHeader>
 
     <Separator class="mt-4 mb-8" />
 
-    <div class="prose dark:prose-invert" v-html="html" />
+    <ContentContent :pending="pending" :html="html" />
 
     <Separator class="my-8" />
 
@@ -33,7 +33,7 @@ const slug = route.params.slug as string
 
 const commentList = useTemplateRef('commentList')
 
-const { content, error, html } = useContent(`slug = "${slug}"`)
+const { content, pending, error, html } = useContent(`slug = "${slug}"`)
 if (error.value) {
   showError(error.value)
 }

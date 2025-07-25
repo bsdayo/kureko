@@ -23,8 +23,6 @@
       </div>
 
       <div class="flex items-center gap-1">
-        <LayoutColorModeDropdown />
-
         <Button
           v-if="user?.owner"
           variant="ghost"
@@ -33,6 +31,8 @@
         >
           <Command />
         </Button>
+
+        <LayoutColorModeDropdown />
       </div>
     </div>
 
