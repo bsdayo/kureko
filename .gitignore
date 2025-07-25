@@ -25,3 +25,6 @@ logs
 
 # PocketBase data
 base/pb_data
+
+# Local
+.scripts
