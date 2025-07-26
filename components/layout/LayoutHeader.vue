@@ -37,11 +37,12 @@
     </div>
 
     <!-- Mobile -->
-    <div class="flex sm:hidden w-full px-2">
-      <div class="grow-1 flex justify-center items-center">
-        <LayoutHeaderAvatar />
-      </div>
+    <div
+      class="sm:hidden grid grid-cols-[auto_1fr_auto] justify-items-center items-center w-full px-2"
+    >
       <LayoutMobileDrawer />
+      <LayoutHeaderAvatar />
+      <LayoutColorModeDropdown />
     </div>
   </div>
   <AdminDialog v-model="adminDialogOpen" />
@@ -51,7 +52,6 @@
 import { useWindowScroll } from '@vueuse/core'
 import { Command } from 'lucide-vue-next'
 
-const pb = usePocketBase()
 const user = useUserState()
 
 const content = useContentState()
