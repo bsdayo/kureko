@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="max-w-prose mx-auto mt-[54px] pt-16">
+  <LayoutContainer class="mt-[54px]">
     <div class="space-y-4">
       <div>
         <textarea
@@ -45,7 +45,7 @@
     <Separator class="mt-4 mb-8" />
 
     <EditorContent class="col-span-3" :editor="editor" spellcheck="false" />
-  </div>
+  </LayoutContainer>
 </template>
 
 <script lang="ts" setup>
