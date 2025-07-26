@@ -213,16 +213,28 @@
       >
         <Table />
       </EditorControlsGroupItem>
-      <EditorControlsGroupItem @click="editor?.chain().focus().addRowAfter().run()">
+      <EditorControlsGroupItem
+        @click="editor?.chain().focus().addRowAfter().run()"
+        :disabled="!editor?.isActive('table')"
+      >
         <Rows />
       </EditorControlsGroupItem>
-      <EditorControlsGroupItem @click="editor?.chain().focus().addColumnAfter().run()">
+      <EditorControlsGroupItem
+        @click="editor?.chain().focus().addColumnAfter().run()"
+        :disabled="!editor?.isActive('table')"
+      >
         <Columns />
       </EditorControlsGroupItem>
-      <EditorControlsGroupItem @click="editor?.chain().focus().deleteRow().run()">
+      <EditorControlsGroupItem
+        @click="editor?.chain().focus().deleteRow().run()"
+        :disabled="!editor?.isActive('table')"
+      >
         <ListX />
       </EditorControlsGroupItem>
-      <EditorControlsGroupItem @click="editor?.chain().focus().deleteColumn().run()">
+      <EditorControlsGroupItem
+        @click="editor?.chain().focus().deleteColumn().run()"
+        :disabled="!editor?.isActive('table')"
+      >
         <ListX class="rotate-90" />
       </EditorControlsGroupItem>
     </EditorControlsGroup>
