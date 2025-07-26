@@ -25,6 +25,7 @@
     "@tiptap/extension-placeholder": "^3.0.7",
     "@tiptap/extension-subscript": "^3.0.7",
     "@tiptap/extension-superscript": "^3.0.7",
+    "@tiptap/extension-table": "^3.0.7",
     "@tiptap/pm": "^3.0.7",
     "@tiptap/starter-kit": "^3.0.7",
     "@tiptap/static-renderer": "^3.0.7",

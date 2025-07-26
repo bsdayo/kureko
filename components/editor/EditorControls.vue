@@ -1,141 +1,124 @@
 <template>
   <div :class="['flex', 'gap-2', wrap ? 'flex-wrap' : 'flex-nowrap']">
-    <ToggleGroup type="multiple" variant="outline">
-      <ToggleGroupItem
-        value="bold"
-        :data-state="toState(editor?.isActive('bold'))"
+    <EditorControlsGroup>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('bold')"
         @click="editor?.chain().focus().toggleBold().run()"
       >
         <Bold />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="italic"
-        :data-state="toState(editor?.isActive('italic'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('italic')"
         @click="editor?.chain().focus().toggleItalic().run()"
       >
         <Italic />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="underline"
-        :data-state="toState(editor?.isActive('underline'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('underline')"
         @click="editor?.chain().focus().toggleUnderline().run()"
       >
         <Underline />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="strike"
-        :data-state="toState(editor?.isActive('strike'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('strike')"
         @click="editor?.chain().focus().toggleStrike().run()"
       >
         <Strikethrough />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="code"
-        :data-state="toState(editor?.isActive('code'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('code')"
         @click="editor?.chain().focus().toggleCode().run()"
       >
         <Code />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="subscript"
-        :data-state="toState(editor?.isActive('subscript'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('subscript')"
         @click="editor?.chain().focus().toggleSubscript().run()"
       >
         <Subscript />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="superscript"
-        :data-state="toState(editor?.isActive('superscript'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('superscript')"
         @click="editor?.chain().focus().toggleSuperscript().run()"
       >
         <Superscript />
-      </ToggleGroupItem>
-    </ToggleGroup>
+      </EditorControlsGroupItem>
+    </EditorControlsGroup>
 
-    <ToggleGroup type="multiple" variant="outline" v-if="mode === 'full'">
-      <!-- <ToggleGroupItem
-        value="h1"
-        :data-state="toState(editor?.isActive('heading', { level: 1 }))"
+    <EditorControlsGroup v-if="mode === 'full'">
+      <!-- <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 1 })"
         @click="editor?.chain().focus().toggleHeading({ level: 1 }).run()"
       >
         <Heading1 />
-      </ToggleGroupItem> -->
-      <ToggleGroupItem
-        value="h2"
-        :data-state="toState(editor?.isActive('heading', { level: 2 }))"
+      </EditorControlsGroupItem> -->
+      <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 2 })"
         @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()"
       >
         <Heading2 />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="h3"
-        :data-state="toState(editor?.isActive('heading', { level: 3 }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 3 })"
         @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()"
       >
         <Heading3 />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="h4"
-        :data-state="toState(editor?.isActive('heading', { level: 4 }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 4 })"
         @click="editor?.chain().focus().toggleHeading({ level: 4 }).run()"
       >
         <Heading4 />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="h5"
-        :data-state="toState(editor?.isActive('heading', { level: 5 }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 5 })"
         @click="editor?.chain().focus().toggleHeading({ level: 5 }).run()"
       >
         <Heading5 />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="h6"
-        :data-state="toState(editor?.isActive('heading', { level: 6 }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('heading', { level: 6 })"
         @click="editor?.chain().focus().toggleHeading({ level: 6 }).run()"
       >
         <Heading6 />
-      </ToggleGroupItem>
-    </ToggleGroup>
+      </EditorControlsGroupItem>
+    </EditorControlsGroup>
 
-    <ToggleGroup type="multiple" variant="outline">
-      <ToggleGroupItem
-        value="paragraph"
+    <EditorControlsGroup>
+      <EditorControlsGroupItem
         v-if="mode === 'full'"
-        :data-state="toState(editor?.isActive('paragraph'))"
+        :active="editor?.isActive('paragraph')"
         @click="toggleParagraph"
       >
         <Text />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="blockquote"
-        :data-state="toState(editor?.isActive('blockquote'))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('blockquote')"
         @click="editor?.chain().focus().toggleBlockquote().run()"
       >
         <Quote />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="figure"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
         v-if="mode === 'full'"
-        :data-state="toState(editor?.isActive('figure'))"
+        :active="editor?.isActive('figure')"
         @click="editor?.chain().focus().setFigure().run()"
       >
         <Captions />
-      </ToggleGroupItem>
-      <!-- <ToggleGroupItem
-        value="details"
-        :data-state="toState(editor?.isActive('details'))"
+      </EditorControlsGroupItem>
+      <!-- <EditorControlsGroupItem
+        :active="editor?.isActive('details')"
         @click="editor?.chain().focus().setDetails().run()"
       >
         <ListCollapse />
-      </ToggleGroupItem> -->
-    </ToggleGroup>
+      </EditorControlsGroupItem> -->
+    </EditorControlsGroup>
 
-    <ToggleGroup type="multiple" variant="outline">
+    <EditorControlsGroup>
       <Popover v-model:open="linkPopoverOpen">
         <PopoverTrigger as-child>
-          <ToggleGroupItem value="link" :data-state="toState(editor?.isActive('link'))">
+          <EditorControlsGroupItem :active="editor?.isActive('link')">
             <Link />
-          </ToggleGroupItem>
+          </EditorControlsGroupItem>
         </PopoverTrigger>
         <PopoverContent class="flex flex-col gap-2">
           <Input v-model="linkTextInput" placeholder="文本" />
@@ -149,9 +132,9 @@
       </Popover>
       <Popover v-model:open="codeBlockPopoverOpen">
         <PopoverTrigger as-child>
-          <ToggleGroupItem value="codeBlock" :data-state="toState(editor?.isActive('codeBlock'))">
+          <EditorControlsGroupItem :active="editor?.isActive('codeBlock')">
             <FileCode />
-          </ToggleGroupItem>
+          </EditorControlsGroupItem>
         </PopoverTrigger>
         <PopoverContent class="flex gap-2">
           <Input v-model="codeBlockLangInput" placeholder="代码语言" />
@@ -162,9 +145,9 @@
       </Popover>
       <Popover v-model:open="imagePopoverOpen" v-if="mode === 'full'">
         <PopoverTrigger as-child>
-          <ToggleGroupItem value="image" :data-state="toState(editor?.isActive('image'))">
+          <EditorControlsGroupItem :active="editor?.isActive('image')">
             <Image />
-          </ToggleGroupItem>
+          </EditorControlsGroupItem>
         </PopoverTrigger>
         <PopoverContent class="flex flex-col gap-2">
           <Input v-model="imageLinkInput" placeholder="图片链接" />
@@ -178,45 +161,41 @@
           <EditorGalleryDialog :draft-id="draftId" @insert="(url) => setImage(url)" />
         </PopoverContent>
       </Popover>
-    </ToggleGroup>
+    </EditorControlsGroup>
 
-    <ToggleGroup type="multiple" variant="outline" v-if="mode === 'full'">
-      <ToggleGroupItem
-        value="alertInfo"
-        :data-state="toState(editor?.isActive('alert', { type: 'info' }))"
+    <EditorControlsGroup v-if="mode === 'full'">
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'info' })"
         @click="editor?.chain().focus().toggleAlert('info').run()"
       >
         <Info />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="alertWarn"
-        :data-state="toState(editor?.isActive('alert', { type: 'warn' }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'warn' })"
         @click="editor?.chain().focus().toggleAlert('warning').run()"
       >
         <TriangleAlert />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="alertError"
-        :data-state="toState(editor?.isActive('alert', { type: 'error' }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'error' })"
         @click="editor?.chain().focus().toggleAlert('error').run()"
       >
         <Ban />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="alertSuccess"
-        :data-state="toState(editor?.isActive('alert', { type: 'success' }))"
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'success' })"
         @click="editor?.chain().focus().toggleAlert('success').run()"
       >
         <CircleCheck />
-      </ToggleGroupItem>
-    </ToggleGroup>
+      </EditorControlsGroupItem>
+    </EditorControlsGroup>
 
-    <ToggleGroup type="multiple" variant="outline">
+    <EditorControlsGroup>
       <Popover>
         <PopoverTrigger as-child>
-          <ToggleGroupItem value="githubUser" :data-state="toState(editor?.isActive('githubUser'))">
+          <EditorControlsGroupItem :active="editor?.isActive('githubUser')">
             <GitHubIcon class="fill-current" />
-          </ToggleGroupItem>
+          </EditorControlsGroupItem>
         </PopoverTrigger>
         <PopoverContent class="flex gap-2">
           <Input v-model="githubUserInput" placeholder="用户名" />
@@ -225,7 +204,28 @@
           </Button>
         </PopoverContent>
       </Popover>
-    </ToggleGroup>
+    </EditorControlsGroup>
+
+    <EditorControlsGroup>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('table')"
+        @click="editor?.chain().focus().insertTable({ rows: 3, cols: 2 }).run()"
+      >
+        <Table />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem @click="editor?.chain().focus().addRowAfter().run()">
+        <Rows />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem @click="editor?.chain().focus().addColumnAfter().run()">
+        <Columns />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem @click="editor?.chain().focus().deleteRow().run()">
+        <ListX />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem @click="editor?.chain().focus().deleteColumn().run()">
+        <ListX class="rotate-90" />
+      </EditorControlsGroupItem>
+    </EditorControlsGroup>
   </div>
 </template>
 
@@ -256,6 +256,10 @@ import {
   Ban,
   CircleCheck,
   Text,
+  Table,
+  Rows,
+  Columns,
+  ListX,
 } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
@@ -265,10 +269,6 @@ const { editor } = defineProps<{
   draftId?: string
   wrap?: boolean
 }>()
-
-function toState(val?: boolean): 'on' | 'off' {
-  return val ? 'on' : 'off'
-}
 
 function toggleParagraph() {
   if (editor?.isActive('paragraph') && editor?.state.selection.$from.node().content.size === 0) {

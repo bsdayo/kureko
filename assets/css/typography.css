@@ -156,3 +156,28 @@ span.github-user a::before {
 /* span.github-user a img {
   @apply inline-block size-[1.1em] m-0 rounded-xs;
 } */
+
+/*====
+Tables
+====*/
+.prose table {
+  @apply block overflow-x-scroll;
+}
+.prose table tbody {
+  @apply table w-full;
+}
+.prose table th,
+.prose table td {
+  @apply py-[0.5714286em] px-[0.5714286em] min-w-8;
+}
+.prose table th:first-child,
+.prose table td:first-child {
+  @apply ps-0;
+}
+.prose table th:last-child,
+.prose table td:last-child {
+  @apply pe-0;
+}
+.prose table p {
+  @apply my-0;
+}

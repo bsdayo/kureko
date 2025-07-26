@@ -7,6 +7,7 @@ import Superscript from '@tiptap/extension-superscript'
 import Image from '@tiptap/extension-image'
 import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import { Details, DetailsSummary, DetailsContent } from '@tiptap/extension-details'
+import { TableKit } from '@tiptap/extension-table'
 
 import { HeadingWithAnchor } from './heading'
 import { CodeBlockShiki } from './codeblock'
@@ -34,6 +35,7 @@ export function contentEditorExtensions() {
     Superscript,
     Image,
     Emoji.configure({ emojis: gitHubEmojis }),
+    TableKit,
     Figure,
     Figcaption,
     // Details,
@@ -62,6 +64,7 @@ export function commentEditorExtensions({ placeholder }: { placeholder: string }
     Subscript,
     Superscript,
     Emoji.configure({ emojis: gitHubEmojis }),
+    TableKit,
     GitHubUser,
   ]
 }
