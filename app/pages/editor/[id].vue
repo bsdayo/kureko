@@ -56,7 +56,7 @@ import { useForm } from 'vee-validate'
 import { watchThrottled, useTextareaAutosize } from '@vueuse/core'
 import type { WatchStopHandle } from 'vue'
 import { Hash } from 'lucide-vue-next'
-import { contentEditorExtensions } from '~/editor'
+import { contentEditorExtensions } from '#shared/editor'
 
 const draftId = useRoute().params.id as string
 const draftType = ref('post')

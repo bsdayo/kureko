@@ -1,6 +1,19 @@
 import { findParentNode, mergeAttributes, Node } from '@tiptap/core'
 
-type AlertType = 'info' | 'warning' | 'error' | 'success'
+// From Material for MkDocs: Admonitions
+type AlertType =
+  | 'note'
+  | 'abstract'
+  | 'info'
+  | 'tip'
+  | 'success'
+  | 'question'
+  | 'warning'
+  | 'failure'
+  | 'danger'
+  | 'bug'
+  | 'example'
+  | 'quote'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -86,7 +99,7 @@ export const Alert = Node.create({
             if (!range) return false
 
             const slice = state.doc.slice(range.start, range.end)
-            const match = schema.nodes.alertContent.contentMatch.matchFragment(slice.content)
+            const match = schema.nodes.alertContent?.contentMatch.matchFragment(slice.content)
             if (!match) return false
 
             const content = slice.toJSON().content || []

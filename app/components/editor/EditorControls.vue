@@ -165,28 +165,76 @@
 
     <EditorControlsGroup v-if="mode === 'full'">
       <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'note' })"
+        @click="editor?.chain().focus().toggleAlert('note').run()"
+      >
+        <Pencil class="text-alert-note" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'abstract' })"
+        @click="editor?.chain().focus().toggleAlert('abstract').run()"
+      >
+        <ClipboardList class="text-alert-abstract" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
         :active="editor?.isActive('alert', { type: 'info' })"
         @click="editor?.chain().focus().toggleAlert('info').run()"
       >
-        <Info />
+        <Info class="text-alert-info" />
       </EditorControlsGroupItem>
       <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'warn' })"
-        @click="editor?.chain().focus().toggleAlert('warning').run()"
+        :active="editor?.isActive('alert', { type: 'tip' })"
+        @click="editor?.chain().focus().toggleAlert('tip').run()"
       >
-        <TriangleAlert />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'error' })"
-        @click="editor?.chain().focus().toggleAlert('error').run()"
-      >
-        <Ban />
+        <Flame class="text-alert-tip" />
       </EditorControlsGroupItem>
       <EditorControlsGroupItem
         :active="editor?.isActive('alert', { type: 'success' })"
         @click="editor?.chain().focus().toggleAlert('success').run()"
       >
-        <CircleCheck />
+        <Check class="text-alert-success" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'question' })"
+        @click="editor?.chain().focus().toggleAlert('question').run()"
+      >
+        <CircleQuestionMark class="text-alert-question" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'warning' })"
+        @click="editor?.chain().focus().toggleAlert('warning').run()"
+      >
+        <TriangleAlert class="text-alert-warning" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'failure' })"
+        @click="editor?.chain().focus().toggleAlert('failure').run()"
+      >
+        <X class="text-alert-failure" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'danger' })"
+        @click="editor?.chain().focus().toggleAlert('danger').run()"
+      >
+        <OctagonAlert class="text-alert-danger" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'bug' })"
+        @click="editor?.chain().focus().toggleAlert('bug').run()"
+      >
+        <Bug class="text-alert-bug" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'example' })"
+        @click="editor?.chain().focus().toggleAlert('example').run()"
+      >
+        <FlaskConical class="text-alert-example" />
+      </EditorControlsGroupItem>
+      <EditorControlsGroupItem
+        :active="editor?.isActive('alert', { type: 'quote' })"
+        @click="editor?.chain().focus().toggleAlert('quote').run()"
+      >
+        <Quote class="text-alert-quote" />
       </EditorControlsGroupItem>
     </EditorControlsGroup>
 
@@ -272,6 +320,14 @@ import {
   Rows,
   Columns,
   ListX,
+  Pencil,
+  ClipboardList,
+  Flame,
+  CircleQuestionMark,
+  X,
+  OctagonAlert,
+  Bug,
+  FlaskConical,
 } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 

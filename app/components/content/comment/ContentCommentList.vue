@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import type { Comment } from '#imports'
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
-import { commentEditorExtensions, contentEditorExtensions } from '~/editor'
+import { commentEditorExtensions } from '#shared/editor'
 import dayjs from 'dayjs'
 import { CornerLeftUp, Reply } from 'lucide-vue-next'
 
@@ -117,11 +117,12 @@ async function fetchComments() {
     type RenderedCommentNode = Omit<RenderedComment, 'level'> & {
       children: RenderedCommentNode[]
     }
-    const commentMap: Record<string, RenderedCommentNode> = {}
-    const commentRoot = []
+    const renderedCommentMap: Record<string, RenderedCommentNode> = {}
+    const renderedCommentRoot: RenderedCommentNode[] = []
 
+    // Render comments
     for (const comment of comments) {
-      commentMap[comment.id] = {
+      renderedCommentMap[comment.id] = {
         ...comment,
         html: renderToHTMLString({
           content: comment.content,
@@ -133,15 +134,21 @@ async function fetchComments() {
     }
 
     for (const comment of comments) {
+      const child = renderedCommentMap[comment.id]
+      if (!child) continue
+
       if (comment.parent) {
-        const parent = commentMap[comment.parent]
+        // If the comment has a parent, add it to the parent's children array
+        const parent = renderedCommentMap[comment.parent]
         if (!parent) continue
-        parent.children.push(commentMap[comment.id])
+        parent.children.push(child)
       } else {
-        commentRoot.push(commentMap[comment.id])
+        // If the comment has no parent, add it to the root array
+        renderedCommentRoot.push(child)
       }
     }
 
+    // Flatten the comment tree into a list with levels
     const result: RenderedComment[] = []
     const append = (children: RenderedCommentNode[], level: number) => {
       for (const node of children) {
@@ -151,7 +158,7 @@ async function fetchComments() {
         }
       }
     }
-    append(commentRoot, 0)
+    append(renderedCommentRoot, 0)
     renderedComments.value = result
   } finally {
     commentsLoading.value = false

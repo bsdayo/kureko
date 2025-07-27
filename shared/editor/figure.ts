@@ -38,7 +38,7 @@ export const Figure = Node.create({
           if (!range) return false
 
           const slice = state.doc.slice(range.start, range.end)
-          const match = schema.nodes.figure.contentMatch.matchFragment(slice.content)
+          const match = schema.nodes.figure?.contentMatch.matchFragment(slice.content)
           if (!match) return false
 
           const content = slice.toJSON().content || []

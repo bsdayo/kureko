@@ -43,7 +43,7 @@ function getDecorations({ doc, name }: { doc: ProsemirrorNode; name: string }) {
         const to = from + token.content.length
 
         const decoration = Decoration.inline(from, to, {
-          style: `color:${token.variants.light.color};--shiki-dark:${token.variants.dark.color};`,
+          style: `color:${token.variants.light?.color};--shiki-dark:${token.variants.dark?.color};`,
         })
 
         decorations.push(decoration)

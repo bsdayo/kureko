@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { commentEditorExtensions } from '~/editor'
+import { commentEditorExtensions } from '#shared/editor'
 import { SendHorizonal } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import { GitHubIcon } from 'vue3-simple-icons'

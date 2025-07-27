@@ -1,10 +1,10 @@
 import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
 import type { Content } from './pocketbase'
-import { contentEditorExtensions } from '~/editor'
+import { contentEditorExtensions } from '#shared/editor'
 import type { WatchStopHandle } from 'vue'
 
 export function useContentState() {
-  return useState<Content | null>('content')
+  return useState<Content | undefined>('content')
 }
 
 export function useContent(filter: string) {
@@ -37,7 +37,7 @@ export function useContent(filter: string) {
   })
   onBeforeUnmount(() => {
     unsync()
-    state.value = null
+    state.value = undefined
   })
 
   return { content: data, status, pending, error, html }
