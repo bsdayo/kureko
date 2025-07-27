@@ -9,6 +9,7 @@ import Emoji, { gitHubEmojis } from '@tiptap/extension-emoji'
 import { Details, DetailsSummary, DetailsContent } from '@tiptap/extension-details'
 import { TableKit } from '@tiptap/extension-table'
 
+import { DeletableParagraph } from './paragraph'
 import { HeadingWithAnchor } from './heading'
 import { CodeBlockShiki } from './codeblock'
 import { Figure, Figcaption } from './figure'
@@ -22,10 +23,12 @@ export function contentEditorExtensions() {
     }),
     CharacterCount,
     StarterKit.configure({
+      paragraph: false,
       heading: false,
       codeBlock: false,
       link: false,
     }),
+    DeletableParagraph,
     HeadingWithAnchor.configure({
       levels: [2, 3, 4, 5, 6],
     }),
@@ -55,10 +58,12 @@ export function commentEditorExtensions({ placeholder }: { placeholder: string }
       limit: COMMENT_CHARACTER_LIMIT,
     }),
     StarterKit.configure({
+      paragraph: false,
       heading: false,
       codeBlock: false,
       link: false,
     }),
+    DeletableParagraph,
     CodeBlockShiki,
     Link.extend({ inclusive: false }).configure({ openOnClick: false }),
     Subscript,

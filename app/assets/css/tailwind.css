@@ -59,7 +59,7 @@
   --color-alert-info: var(--color-cyan-400);
   --color-alert-tip: var(--color-teal-400);
   --color-alert-success: var(--color-green-400);
-  --color-alert-question: var(--color-lime-400);
+  --color-alert-question: var(--color-lime-500);
   --color-alert-warning: var(--color-amber-400);
   --color-alert-failure: var(--color-red-400);
   --color-alert-danger: var(--color-red-500);

@@ -28,7 +28,6 @@ declare module '@tiptap/core' {
 export const AlertTitle = Node.create({
   name: 'alertTitle',
   content: 'text*',
-  isolating: true,
   parseHTML() {
     return [{ tag: 'div.alert-title' }]
   },
@@ -58,6 +57,7 @@ export const Alert = Node.create({
   group: 'block',
   content: 'alertTitle alertContent?',
   isolating: true,
+  selectable: false,
 
   addAttributes() {
     return {
@@ -162,6 +162,23 @@ export const Alert = Node.create({
         }
 
         return this.editor.commands.unsetAlert()
+      },
+      Enter: () => {
+        const { schema, selection } = this.editor.state
+        const { $anchor } = selection
+
+        if (
+          $anchor.parent.type !== schema.nodes.alertTitle ||
+          $anchor.pos !== $anchor.end() ||
+          $anchor.parent.childCount > 1
+        ) {
+          return false
+        }
+
+        return this.editor.commands.insertContentAt($anchor.pos + 2, {
+          type: 'alertContent',
+          content: [{ type: 'paragraph' }],
+        })
       },
     }
   },

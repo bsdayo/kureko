@@ -1,5 +1,15 @@
 <template>
-  <div :class="['flex', 'gap-2', wrap ? 'flex-wrap' : 'flex-nowrap']">
+  <div
+    ref="editorControls"
+    class="overflow-x-scroll flex gap-2 relative"
+    :class="wrap ? 'flex-wrap' : 'flex-nowrap'"
+  >
+    <!-- <div class="sticky bg-background top-0 left-0">
+      <Button size="icon" variant="ghost" @click="x -= 50">
+        <ChevronLeft />
+      </Button>
+    </div> -->
+
     <EditorControlsGroup>
       <EditorControlsGroupItem
         :active="editor?.isActive('bold')"
@@ -45,53 +55,55 @@
       </EditorControlsGroupItem>
     </EditorControlsGroup>
 
-    <EditorControlsGroup v-if="mode === 'full'">
-      <!-- <EditorControlsGroupItem
+    <Popover v-if="mode === 'full'">
+      <PopoverTrigger as-child>
+        <Button size="icon" variant="outline">
+          <Heading />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent class="p-2 w-fit">
+        <EditorControlsGroup>
+          <!-- <EditorControlsGroupItem
         :active="editor?.isActive('heading', { level: 1 })"
         @click="editor?.chain().focus().toggleHeading({ level: 1 }).run()"
       >
         <Heading1 />
       </EditorControlsGroupItem> -->
-      <EditorControlsGroupItem
-        :active="editor?.isActive('heading', { level: 2 })"
-        @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()"
-      >
-        <Heading2 />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('heading', { level: 3 })"
-        @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()"
-      >
-        <Heading3 />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('heading', { level: 4 })"
-        @click="editor?.chain().focus().toggleHeading({ level: 4 }).run()"
-      >
-        <Heading4 />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('heading', { level: 5 })"
-        @click="editor?.chain().focus().toggleHeading({ level: 5 }).run()"
-      >
-        <Heading5 />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('heading', { level: 6 })"
-        @click="editor?.chain().focus().toggleHeading({ level: 6 }).run()"
-      >
-        <Heading6 />
-      </EditorControlsGroupItem>
-    </EditorControlsGroup>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('heading', { level: 2 })"
+            @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()"
+          >
+            <Heading2 />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('heading', { level: 3 })"
+            @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()"
+          >
+            <Heading3 />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('heading', { level: 4 })"
+            @click="editor?.chain().focus().toggleHeading({ level: 4 }).run()"
+          >
+            <Heading4 />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('heading', { level: 5 })"
+            @click="editor?.chain().focus().toggleHeading({ level: 5 }).run()"
+          >
+            <Heading5 />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('heading', { level: 6 })"
+            @click="editor?.chain().focus().toggleHeading({ level: 6 }).run()"
+          >
+            <Heading6 />
+          </EditorControlsGroupItem>
+        </EditorControlsGroup>
+      </PopoverContent>
+    </Popover>
 
     <EditorControlsGroup>
-      <EditorControlsGroupItem
-        v-if="mode === 'full'"
-        :active="editor?.isActive('paragraph')"
-        @click="toggleParagraph"
-      >
-        <Text />
-      </EditorControlsGroupItem>
       <EditorControlsGroupItem
         :active="editor?.isActive('blockquote')"
         @click="editor?.chain().focus().toggleBlockquote().run()"
@@ -163,80 +175,89 @@
       </Popover>
     </EditorControlsGroup>
 
-    <EditorControlsGroup v-if="mode === 'full'">
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'note' })"
-        @click="editor?.chain().focus().toggleAlert('note').run()"
-      >
-        <Pencil class="text-alert-note" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'abstract' })"
-        @click="editor?.chain().focus().toggleAlert('abstract').run()"
-      >
-        <ClipboardList class="text-alert-abstract" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'info' })"
-        @click="editor?.chain().focus().toggleAlert('info').run()"
-      >
-        <Info class="text-alert-info" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'tip' })"
-        @click="editor?.chain().focus().toggleAlert('tip').run()"
-      >
-        <Flame class="text-alert-tip" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'success' })"
-        @click="editor?.chain().focus().toggleAlert('success').run()"
-      >
-        <Check class="text-alert-success" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'question' })"
-        @click="editor?.chain().focus().toggleAlert('question').run()"
-      >
-        <CircleQuestionMark class="text-alert-question" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'warning' })"
-        @click="editor?.chain().focus().toggleAlert('warning').run()"
-      >
-        <TriangleAlert class="text-alert-warning" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'failure' })"
-        @click="editor?.chain().focus().toggleAlert('failure').run()"
-      >
-        <X class="text-alert-failure" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'danger' })"
-        @click="editor?.chain().focus().toggleAlert('danger').run()"
-      >
-        <OctagonAlert class="text-alert-danger" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'bug' })"
-        @click="editor?.chain().focus().toggleAlert('bug').run()"
-      >
-        <Bug class="text-alert-bug" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'example' })"
-        @click="editor?.chain().focus().toggleAlert('example').run()"
-      >
-        <FlaskConical class="text-alert-example" />
-      </EditorControlsGroupItem>
-      <EditorControlsGroupItem
-        :active="editor?.isActive('alert', { type: 'quote' })"
-        @click="editor?.chain().focus().toggleAlert('quote').run()"
-      >
-        <Quote class="text-alert-quote" />
-      </EditorControlsGroupItem>
-    </EditorControlsGroup>
+    <Popover v-if="mode === 'full'">
+      <PopoverTrigger as-child>
+        <Button size="icon" variant="outline">
+          <Info />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent class="p-2 w-fit">
+        <EditorControlsGroup>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'note' })"
+            @click="editor?.chain().focus().toggleAlert('note').run()"
+          >
+            <Pencil class="text-alert-note" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'abstract' })"
+            @click="editor?.chain().focus().toggleAlert('abstract').run()"
+          >
+            <ClipboardList class="text-alert-abstract" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'info' })"
+            @click="editor?.chain().focus().toggleAlert('info').run()"
+          >
+            <Info class="text-alert-info" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'tip' })"
+            @click="editor?.chain().focus().toggleAlert('tip').run()"
+          >
+            <Flame class="text-alert-tip" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'success' })"
+            @click="editor?.chain().focus().toggleAlert('success').run()"
+          >
+            <CircleCheck class="text-alert-success" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'question' })"
+            @click="editor?.chain().focus().toggleAlert('question').run()"
+          >
+            <CircleQuestionMark class="text-alert-question" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'warning' })"
+            @click="editor?.chain().focus().toggleAlert('warning').run()"
+          >
+            <TriangleAlert class="text-alert-warning" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'failure' })"
+            @click="editor?.chain().focus().toggleAlert('failure').run()"
+          >
+            <CircleX class="text-alert-failure" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'danger' })"
+            @click="editor?.chain().focus().toggleAlert('danger').run()"
+          >
+            <OctagonAlert class="text-alert-danger" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'bug' })"
+            @click="editor?.chain().focus().toggleAlert('bug').run()"
+          >
+            <Bug class="text-alert-bug" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'example' })"
+            @click="editor?.chain().focus().toggleAlert('example').run()"
+          >
+            <FlaskConical class="text-alert-example" />
+          </EditorControlsGroupItem>
+          <EditorControlsGroupItem
+            :active="editor?.isActive('alert', { type: 'quote' })"
+            @click="editor?.chain().focus().toggleAlert('quote').run()"
+          >
+            <Quote class="text-alert-quote" />
+          </EditorControlsGroupItem>
+        </EditorControlsGroup>
+      </PopoverContent>
+    </Popover>
 
     <EditorControlsGroup>
       <Popover>
@@ -265,13 +286,13 @@
         @click="editor?.chain().focus().addRowAfter().run()"
         :disabled="!editor?.isActive('table')"
       >
-        <Rows />
+        <ListPlus />
       </EditorControlsGroupItem>
       <EditorControlsGroupItem
         @click="editor?.chain().focus().addColumnAfter().run()"
         :disabled="!editor?.isActive('table')"
       >
-        <Columns />
+        <ListPlus class="rotate-90" />
       </EditorControlsGroupItem>
       <EditorControlsGroupItem
         @click="editor?.chain().focus().deleteRow().run()"
@@ -286,6 +307,12 @@
         <ListX class="rotate-90" />
       </EditorControlsGroupItem>
     </EditorControlsGroup>
+
+    <!-- <div class="sticky bg-background top-0 right-0">
+      <Button size="icon" variant="ghost" @click="x += 50">
+        <ChevronRight />
+      </Button>
+    </div> -->
   </div>
 </template>
 
@@ -328,8 +355,12 @@ import {
   OctagonAlert,
   Bug,
   FlaskConical,
+  Heading,
+  ListPlus,
+  CircleX,
 } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
+import { useScroll } from '@vueuse/core'
 
 const { editor } = defineProps<{
   editor?: Editor
@@ -338,13 +369,8 @@ const { editor } = defineProps<{
   wrap?: boolean
 }>()
 
-function toggleParagraph() {
-  if (editor?.isActive('paragraph') && editor?.state.selection.$from.node().content.size === 0) {
-    editor.chain().focus().deleteNode('paragraph').run()
-  } else {
-    editor?.chain().focus().setParagraph().run()
-  }
-}
+// const editorControls = useTemplateRef('editorControls')
+// const { x } = useScroll(editorControls, { behavior: 'smooth' })
 
 // Link
 const linkTextInput = ref('')
@@ -393,7 +419,6 @@ function setLink() {
         const { $anchor } = state.selection
         const from = $anchor.pos - $anchor.textOffset
         const link = state.doc.nodeAt(from)
-        console.log('found link node', link)
         if (!link) return false
         return chain()
           .insertContentAt({ from, to: from + link.nodeSize }, content)

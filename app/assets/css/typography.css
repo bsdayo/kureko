@@ -11,6 +11,9 @@ TipTap
   @apply text-muted-foreground/50 float-left pointer-events-none h-0;
   content: attr(data-placeholder);
 }
+.tiptap .ProseMirror-selectednode {
+  @apply outline-2 outline-zinc-500;
+}
 
 /*======
 Headings
@@ -84,12 +87,12 @@ Alerts
 }
 
 .prose div.alert::before {
-  @apply block size-4 translate-y-[3px] mask-cover;
+  @apply block size-4 translate-y-0.5 mask-cover;
   content: '';
 }
 
 .prose div.alert-title {
-  @apply min-h-4 font-medium tracking-tight text-sm;
+  @apply min-h-4 font-medium text-sm;
 }
 
 .prose div.alert-content {
@@ -141,8 +144,8 @@ Alerts
 }
 .prose div.alert[data-type='success']::before {
   @apply bg-alert-success;
-  /* lucide: check */
-  mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZWNrLWljb24gbHVjaWRlLWNoZWNrIj48cGF0aCBkPSJNMjAgNiA5IDE3bC01LTUiLz48L3N2Zz4=');
+  /* lucide: circle-check */
+  mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNpcmNsZS1jaGVjay1pY29uIGx1Y2lkZS1jaXJjbGUtY2hlY2siPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PHBhdGggZD0ibTkgMTIgMiAyIDQtNCIvPjwvc3ZnPg==');
 }
 
 .prose div.alert[data-type='question'] {
@@ -168,8 +171,8 @@ Alerts
 }
 .prose div.alert[data-type='failure']::before {
   @apply bg-alert-failure;
-  /* lucide: x */
-  mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgtaWNvbiBsdWNpZGUteCI+PHBhdGggZD0iTTE4IDYgNiAxOCIvPjxwYXRoIGQ9Im02IDYgMTIgMTIiLz48L3N2Zz4=');
+  /* lucide: circle-x */
+  mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNpcmNsZS14LWljb24gbHVjaWRlLWNpcmNsZS14Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIvPjxwYXRoIGQ9Im0xNSA5LTYgNiIvPjxwYXRoIGQ9Im05IDkgNiA2Ii8+PC9zdmc+');
 }
 
 .prose div.alert[data-type='danger'] {
@@ -212,7 +215,7 @@ Alerts
 GitHub
 ====*/
 span.github-user a {
-  @apply leading-4 inline-flex translate-y-[3px] gap-1 p-1 items-center rounded border text-sm no-underline mx-1;
+  @apply leading-4 inline-flex translate-y-[3px] gap-1 p-1 items-center rounded border text-sm no-underline;
 }
 span.github-user a::before {
   @apply inline-block size-[1.2em] rounded-xs;
@@ -228,7 +231,10 @@ span.github-user a::before {
 Tables
 ====*/
 .prose table {
-  @apply block overflow-x-scroll;
+  @apply block overflow-x-scroll overflow-y-visible;
+}
+.prose table tr {
+  @apply border-border;
 }
 .prose table tbody {
   @apply table w-full;
@@ -247,4 +253,7 @@ Tables
 }
 .prose table p {
   @apply my-0;
+}
+.prose table img {
+  @apply m-0;
 }
