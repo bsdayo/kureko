@@ -1,12 +1,11 @@
-/** @type { import('../composables/kureko').KurekoConfig } */
+/** @type { import('../app/composables/kureko').KurekoConfig } */
 // @ts-check
 
 const config = {
   // 站点信息
   site: {
-    // 页面标题模板
-    // 详见 https://nuxt.com/docs/4.x/getting-started/seo-meta#title-template
-    titleTemplate: '%s - Kureko Dev',
+    // 站点名称
+    name: 'Kureko Dev',
   },
 
   // 作者信息

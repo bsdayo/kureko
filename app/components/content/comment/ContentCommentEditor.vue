@@ -1,7 +1,9 @@
 <template>
   <div class="relative border rounded-lg transition-shadow" :class="focusClasses">
     <div class="flex justify-between gap-2 p-2 border-b">
-      <EditorControls mode="comment" :editor="editor" />
+      <div class="overflow-scroll">
+        <EditorControls mode="comment" :editor="editor" />
+      </div>
       <div class="flex gap-2 items-center">
         <ContentCommentFaqDialog />
 

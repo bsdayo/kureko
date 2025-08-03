@@ -1,6 +1,6 @@
 export interface KurekoConfig {
   site: {
-    titleTemplate: string
+    name: string
   }
   author: {
     name: string
