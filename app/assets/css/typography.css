@@ -79,11 +79,7 @@ Alerts
 ====*/
 .prose div.alert {
   @apply relative w-full rounded-lg border px-4 py-3 my-4 bg-card text-card-foreground;
-  @apply grid grid-cols-[calc(var(--spacing)*4)_1fr] gap-x-3 gap-y-0.5;
-}
-
-.prose div.alert:first-child {
-  @apply mt-0;
+  @apply grid grid-cols-[16px_1fr] gap-x-3 gap-y-4;
 }
 
 .prose div.alert::before {
@@ -103,8 +99,13 @@ Alerts
   @apply mb-0;
 }
 
+.prose div.alert-content blockquote {
+  border-inline-start-color: var(--border);
+}
+
 .prose div.alert[data-type='note'] {
-  @apply bg-alert-note/10 border-alert-note;
+  @apply bg-alert-note/10;
+  --border: var(--color-alert-note);
 }
 .prose div.alert[data-type='note']::before {
   @apply bg-alert-note;
@@ -113,7 +114,8 @@ Alerts
 }
 
 .prose div.alert[data-type='abstract'] {
-  @apply bg-alert-abstract/10 border-alert-abstract;
+  @apply bg-alert-abstract/10;
+  --border: var(--color-alert-abstract);
 }
 .prose div.alert[data-type='abstract']::before {
   @apply bg-alert-abstract;
@@ -122,7 +124,8 @@ Alerts
 }
 
 .prose div.alert[data-type='info'] {
-  @apply bg-alert-info/10 border-alert-info;
+  @apply bg-alert-info/10;
+  --border: var(--color-alert-info);
 }
 .prose div.alert[data-type='info']::before {
   @apply bg-alert-info;
@@ -131,7 +134,8 @@ Alerts
 }
 
 .prose div.alert[data-type='tip'] {
-  @apply bg-alert-tip/10 border-alert-tip;
+  @apply bg-alert-tip/10;
+  --border: var(--color-alert-tip);
 }
 .prose div.alert[data-type='tip']::before {
   @apply bg-alert-tip;
@@ -140,7 +144,8 @@ Alerts
 }
 
 .prose div.alert[data-type='success'] {
-  @apply bg-alert-success/10 border-alert-success;
+  @apply bg-alert-success/10;
+  --border: var(--color-alert-success);
 }
 .prose div.alert[data-type='success']::before {
   @apply bg-alert-success;
@@ -149,7 +154,8 @@ Alerts
 }
 
 .prose div.alert[data-type='question'] {
-  @apply bg-alert-question/10 border-alert-question;
+  @apply bg-alert-question/10;
+  --border: var(--color-alert-question);
 }
 .prose div.alert[data-type='question']::before {
   @apply bg-alert-question;
@@ -158,7 +164,8 @@ Alerts
 }
 
 .prose div.alert[data-type='warning'] {
-  @apply bg-alert-warning/10 border-alert-warning;
+  @apply bg-alert-warning/10;
+  --border: var(--color-alert-warning);
 }
 .prose div.alert[data-type='warning']::before {
   @apply bg-alert-warning;
@@ -167,7 +174,8 @@ Alerts
 }
 
 .prose div.alert[data-type='failure'] {
-  @apply bg-alert-failure/10 border-alert-failure;
+  @apply bg-alert-failure/10;
+  --border: var(--color-alert-failure);
 }
 .prose div.alert[data-type='failure']::before {
   @apply bg-alert-failure;
@@ -176,7 +184,8 @@ Alerts
 }
 
 .prose div.alert[data-type='danger'] {
-  @apply bg-alert-danger/10 border-alert-danger;
+  @apply bg-alert-danger/10;
+  --border: var(--color-alert-danger);
 }
 .prose div.alert[data-type='danger']::before {
   @apply bg-alert-danger;
@@ -185,7 +194,8 @@ Alerts
 }
 
 .prose div.alert[data-type='bug'] {
-  @apply bg-alert-bug/10 border-alert-bug;
+  @apply bg-alert-bug/10;
+  --border: var(--color-alert-bug);
 }
 .prose div.alert[data-type='bug']::before {
   @apply bg-alert-bug;
@@ -194,7 +204,8 @@ Alerts
 }
 
 .prose div.alert[data-type='example'] {
-  @apply bg-alert-example/10 border-alert-example;
+  @apply bg-alert-example/10;
+  --border: var(--color-alert-example);
 }
 .prose div.alert[data-type='example']::before {
   @apply bg-alert-example;
@@ -203,7 +214,8 @@ Alerts
 }
 
 .prose div.alert[data-type='quote'] {
-  @apply bg-alert-quote/10 border-alert-quote;
+  @apply bg-alert-quote/10;
+  --border: var(--color-alert-quote);
 }
 .prose div.alert[data-type='quote']::before {
   @apply bg-alert-quote;

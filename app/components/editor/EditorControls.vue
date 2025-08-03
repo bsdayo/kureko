@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="editorControls"
-    class="overflow-x-scroll flex gap-2 relative"
-    :class="wrap ? 'flex-wrap' : 'flex-nowrap'"
-  >
+  <div ref="editorControls" class="flex gap-2 relative">
     <!-- <div class="sticky bg-background top-0 left-0">
       <Button size="icon" variant="ghost" @click="x -= 50">
         <ChevronLeft />
@@ -366,7 +362,6 @@ const { editor } = defineProps<{
   editor?: Editor
   mode: 'full' | 'comment'
   draftId?: string
-  wrap?: boolean
 }>()
 
 // const editorControls = useTemplateRef('editorControls')

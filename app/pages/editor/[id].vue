@@ -1,6 +1,8 @@
 <template>
   <div class="fixed w-full z-40 border-b p-2 bg-background grid grid-cols-[1fr_auto_auto] gap-2">
-    <EditorControls class="mx-auto" mode="full" :editor="editor" :draft-id="draftId" />
+    <div class="overflow-scroll">
+      <EditorControls class="mx-auto w-fit" mode="full" :editor="editor" :draft-id="draftId" />
+    </div>
     <Separator orientation="vertical" />
     <div class="flex gap-2">
       <EditorDeleteDialog :draft-id="draftId" />
