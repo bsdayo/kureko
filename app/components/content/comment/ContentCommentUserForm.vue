@@ -3,9 +3,10 @@
     @submit="submit"
     class="overflow-hidden grid sm:grid-cols-[1fr_1fr_auto] gap-2 p-2 border-b items-start"
   >
-    <div class="grid grid-cols-[auto_1fr] gap-1">
-      <label class="content-center">
-        <IdCard class="size-4" />
+    <div class="grid grid-cols-[auto_1fr] gap-2">
+      <label class="content-center text-sm">
+        <!-- <IdCard class="size-4" /> -->
+        昵称
       </label>
       <Input v-model="name" v-bind="nameAttrs" :placeholder="user?.name" />
       <span v-if="errors.name" class="col-start-2 text-sm text-destructive">
@@ -13,9 +14,10 @@
       </span>
     </div>
 
-    <div class="grid grid-cols-[auto_1fr] gap-1">
-      <label class="content-center">
-        <Link class="size-4" />
+    <div class="grid grid-cols-[auto_1fr] gap-2">
+      <label class="content-center text-sm">
+        <!-- <Link class="size-4" /> -->
+        网站
       </label>
       <Input v-model="website" v-bind="websiteAttrs" :placeholder="user?.website || '网站'" />
       <span v-if="errors.website" class="col-start-2 text-sm text-destructive">
