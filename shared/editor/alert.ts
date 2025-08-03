@@ -175,7 +175,7 @@ export const Alert = Node.create({
           return false
         }
 
-        return this.editor.commands.insertContentAt($anchor.pos + 2, {
+        return this.editor.commands.insertContent({
           type: 'alertContent',
           content: [{ type: 'paragraph' }],
         })
