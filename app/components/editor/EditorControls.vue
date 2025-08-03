@@ -274,7 +274,11 @@
     <EditorControlsGroup>
       <EditorControlsGroupItem
         :active="editor?.isActive('table')"
-        @click="editor?.chain().focus().insertTable({ rows: 3, cols: 2 }).run()"
+        @click="
+          editor?.isActive('table')
+            ? editor?.chain().focus().deleteNode('table').run()
+            : editor?.chain().focus().insertTable({ rows: 3, cols: 2 }).run()
+        "
       >
         <Table />
       </EditorControlsGroupItem>
